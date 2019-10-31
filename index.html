@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+		<title>Project 1: Team 8 Categorical Data</title>
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="data.js"></script>
+
+		<style type="text/css">
+			/* No style rules here yet */		
+		</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+
+		// Total image size = (length x length) pixels
+		var length = 600;
+
+		// Map color by integers using schemeCategory10 (10 circles)
+		var color = d3.scaleOrdinal(d3.schemeCategory10);
+/*
+        priority_1 = {
+            "children": [{"Name":"Price","Count":45444,"Priority":1},
+                {"Name":"Features","Count":40239,"Priority":1},
+                {"Name":"Safety","Count":5305,"Priority":1},
+                {"Name":"Security","Count":8051,"Priority":1},
+                {"Name":"Privacy","Count":8442,"Priority":1},
+                {"Name":"Reliability","Count":13337,"Priority":1},
+                {"Name":"User Reviews","Count":3792,"Priority":1},
+                {"Name":"Expert Recommendation","Count":6185,"Priority":1},
+                {"Name":"Friend/Family Recommendation","Count":3002,"Priority":1},
+                {"Name":"Convenience","Count":21600,"Priority":1}]
+        };
+*/
+        // Create set of bubbles using data; padding puts distance between each bubble
+        var bubble = d3.pack(priority_1)
+            .size([length, length])
+            .padding(2.0);
+
+        // SVG graphic variable holding desired attributes
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", length)
+            .attr("height", length)
+            .attr("class", "bubble");
+
+        // Nodes (of a storage tree) store array of entire priority_1
+        var nodes = d3.hierarchy(priority_1)
+            .sum(function(d) { return d.Count; });
+
+        // Defining each individual node/circle
+        var node = svg.selectAll(".node")
+            .data(bubble(nodes).descendants())
+            .enter()
+            .filter(function(d){
+                return  !d.children
+            })
+            .append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+
+        // Titles each node/bubble for in-script information
+        node.append("title")
+            .text(function(d) {
+                return d.Name + ": " + d.Count;
+           });
+
+        // Function that returns radius of each bubble for output onto screen
+        node.append("circle")
+            .attr("r", function(d) {
+                return d.r;
+            })
+        // Function that returns color for each bubble for output onto screen
+            .style("fill", function(d,i) {
+                return color(i);
+            });
+
+        // Label each individual bubble /w Name and format it to fit the bubble
+        node.append("text")
+            .attr("dy", ".2em")  // Vertical distance between "name" and "count"
+            .style("text-anchor", "middle") // Center text on bubble
+            .text(function(d) {
+                return d.data.Name.substring(0, d.r / 3);
+            })
+            .attr("font-family", "sans-serif")
+            .attr("font-size", function(d){  // Font size in terms of bubble radius
+                return d.r/4.5;
+            })
+            .attr("fill", "black"); // Color of text
+
+        // Add on count (which we pre-calculated) to each individual bubble with good looking format
+        node.append("text")
+            .attr("dy", "1.3em") // Vertical distance between "name" and "count"
+            .style("text-anchor", "middle")  // Center text on bubble
+            .text(function(d) {
+                return d.data.Count;
+            })
+            .attr("font-family",  "Gill Sans", "Gill Sans MT")
+            .attr("font-size", function(d){  // Font size in terms of bubble radius
+                return d.r/6;
+            })
+            .attr("fill", "black");  // Color of text
+
+        d3.select(self.frameElement)
+            .style("height", length + "px");
+
+	</script>
+</body>
+</html>
