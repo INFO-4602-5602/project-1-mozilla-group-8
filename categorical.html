@@ -8,7 +8,14 @@
         <script src="xlsx.full.min.js"></script>
 
 		<style type="text/css">
-			/* No style rules here yet */		
+			.tooltip {
+                position: absolute;
+                font-size: 12px;
+                width: auto;
+                height: auto;
+                pointer-events: none;
+                background-color: lightblue;
+            }		
 		</style>
 </head>
 
@@ -18,6 +25,7 @@
 /////////////////////////////////// DATA LOADING ///////////////////////////////////////////////////////
 ///////////////////////////// Src: https://github.com/SheetJS/sheetjs //////////////////////////////////
 
+    // Set to Excel data file (which automatically updates itself if new data is put in)
     var url = "SurveyExport_Categorical_Data.xlsx";
     var oReq = new XMLHttpRequest();
     oReq.open("GET", url, true);
@@ -26,7 +34,7 @@
     oReq.onload = function(e) {
     var arraybuffer = oReq.response;
 
-    /* convert data to binary string */
+    /* Convert data to binary string */
     var data = new Uint8Array(arraybuffer);
     var arr = new Array();
     for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
@@ -35,9 +43,8 @@
     /* Call XLSX */
     var workbook = XLSX.read(bstr, {type:"binary"});
 
-    /* DO SOMETHING WITH workbook HERE */
     var first_sheet_name = workbook.SheetNames[1];
-    /* Get worksheet */
+    /* Get the (2nd) Excel worksheet */
     var worksheet = workbook.Sheets[first_sheet_name];
     var json_vers = XLSX.utils.sheet_to_json(worksheet,{raw:true});
 
@@ -74,16 +81,13 @@
 		var color = d3.scaleOrdinal(d3.schemeCategory10);
 
         // Create set of bubbles using data; padding puts distance between each bubble
-        var bubble = d3.pack(infos[9])
+        var bubble = d3.pack(infos[6])
             .size([length, length])
             .padding(2.0);
 
         // Nodes (of a storage tree) store array of entire infos[0]
-        var nodes = d3.hierarchy(infos[9])
+        var nodes = d3.hierarchy(infos[6])
             .sum(function(d) { return d.Count; });
-
-        //console.log(infos[0])
-        //console.log(json_vers);
 
         // SVG graphic variable holding desired attributes
         var svg = d3.select("body")
@@ -91,6 +95,45 @@
             .attr("width", length)
             .attr("height", length)
             .attr("class", "bubble");
+
+        // Initialize tooltip variable for user interactivity
+        var tooltip = d3.select("body")
+            .append("div")
+                .style("opacity", 0)
+                .attr("class", "tooltip")
+                .style("background-color", "lightblue")
+                .style("border-radius", "5px")
+                .style("padding", "10px")
+                .style("color", "black")
+
+        // Output tooltip /w relevant information when user first hovers over any new bubble
+        var showTooltip = function(d) {
+            var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+            outputText += " as priority #: " + d.data.Priority + "<br>";
+            tooltip
+                .transition()
+                .duration(200)
+            tooltip
+                .style("opacity", 1)
+                .html(outputText)
+                .style("left", (d3.event.pageX + 15) + "px")
+                .style("top", (d3.event.pageY - 28) + "px")
+        }
+
+        // Update location of tooltip box whenever user moves the mouse over the same bubble
+        var moveTooltip = function(d) {
+            tooltip
+                .style("left", (d3.event.pageX + 15) + "px")
+                .style("top", (d3.event.pageY - 28) + "px")
+        }
+
+        // Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+        var hideTooltip = function(d) {
+            tooltip
+                .transition()
+                .duration(200)
+                .style("opacity", 0)
+        }
 
         // Defining each individual node/circle
         var node = svg.selectAll(".node")
@@ -101,6 +144,9 @@
             })
             .append("g")
             .attr("class", "node")
+            .on("mouseover", showTooltip)
+            .on("mousemove", moveTooltip)
+            .on("mouseleave", hideTooltip)
             .attr("transform", function(d) {
                 return "translate(" + d.x + "," + d.y + ")";
             });
@@ -149,9 +195,10 @@
 
         d3.select(self.frameElement)
             .style("height", length + "px");
-    }
+            
+    } // End of Excel sheet read-in
 
-        oReq.send();
+        oReq.send(); // End of Excel Sheet read-in (from source)
 
 	</script>
 </body>
