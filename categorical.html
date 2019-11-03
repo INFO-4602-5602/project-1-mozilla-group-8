@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 		<title>Project 1: Team 8 Categorical Data</title>
 		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-		<script src="categorical_data.js"></script>
+        <script src="xlsx.full.min.js"></script>
 
 		<style type="text/css">
 			/* No style rules here yet */		
@@ -15,29 +15,75 @@
 <body>
 	<script type="text/javascript">
 
+/////////////////////////////////// DATA LOADING ///////////////////////////////////////////////////////
+///////////////////////////// Src: https://github.com/SheetJS/sheetjs //////////////////////////////////
+
+    var url = "SurveyExport_Categorical_Data.xlsx";
+    var oReq = new XMLHttpRequest();
+    oReq.open("GET", url, true);
+    oReq.responseType = "arraybuffer";
+
+    oReq.onload = function(e) {
+    var arraybuffer = oReq.response;
+
+    /* convert data to binary string */
+    var data = new Uint8Array(arraybuffer);
+    var arr = new Array();
+    for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+    var bstr = arr.join("");
+
+    /* Call XLSX */
+    var workbook = XLSX.read(bstr, {type:"binary"});
+
+    /* DO SOMETHING WITH workbook HERE */
+    var first_sheet_name = workbook.SheetNames[1];
+    /* Get worksheet */
+    var worksheet = workbook.Sheets[first_sheet_name];
+    var json_vers = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+
+    // Create array of 10 objects to store information (collected dynamically from excel worksheet)
+    var n = 10;
+    var infos = new Array();
+    for (var i = 0; i < n; i++)
+        infos.push(new Object());
+
+    // Populate each object with information, where each object represents one bubble data set (one total rating)
+    for (var j = 0; j < n; j++){
+        infos[j] = {
+            "children": [{"Name":"Price","Count":json_vers[j].Price,"Priority":j+1},
+                {"Name":"Features","Count":json_vers[j].Features,"Priority":j+1},
+                {"Name":"Safety","Count":json_vers[j].Safety,"Priority":j+1},
+                {"Name":"Security","Count":json_vers[j].Security,"Priority":j+1},
+                {"Name":"Privacy","Count":json_vers[j].Privacy,"Priority":j+1},
+                {"Name":"Reliability","Count":json_vers[j].Reliability,"Priority":j+1},
+                {"Name":"User Reviews","Count":json_vers[j]["User Reviews"],"Priority":j+1},
+                {"Name":"Expert Rec.","Count":json_vers[j]["Expert Rec."],"Priority":j+1},
+                {"Name":"Friend/Fam. Rec.","Count":json_vers[j]["Friend/Fam. Rec."],"Priority":j+1},
+                {"Name":"Convenience","Count":json_vers[j].Convenience,"Priority":j+1}]
+        };
+    }
+
+  console.log(infos); // Put entire array of objects onto screen for verification
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		// Total image size = (length x length) pixels
 		var length = 600;
 
 		// Map color by integers using schemeCategory10 (10 circles)
 		var color = d3.scaleOrdinal(d3.schemeCategory10);
-/*
-        priority_1 = {
-            "children": [{"Name":"Price","Count":45444,"Priority":1},
-                {"Name":"Features","Count":40239,"Priority":1},
-                {"Name":"Safety","Count":5305,"Priority":1},
-                {"Name":"Security","Count":8051,"Priority":1},
-                {"Name":"Privacy","Count":8442,"Priority":1},
-                {"Name":"Reliability","Count":13337,"Priority":1},
-                {"Name":"User Reviews","Count":3792,"Priority":1},
-                {"Name":"Expert Recommendation","Count":6185,"Priority":1},
-                {"Name":"Friend/Family Recommendation","Count":3002,"Priority":1},
-                {"Name":"Convenience","Count":21600,"Priority":1}]
-        };
-*/
+
         // Create set of bubbles using data; padding puts distance between each bubble
-        var bubble = d3.pack(priority_1)
+        var bubble = d3.pack(infos[9])
             .size([length, length])
             .padding(2.0);
+
+        // Nodes (of a storage tree) store array of entire infos[0]
+        var nodes = d3.hierarchy(infos[9])
+            .sum(function(d) { return d.Count; });
+
+        //console.log(infos[0])
+        //console.log(json_vers);
 
         // SVG graphic variable holding desired attributes
         var svg = d3.select("body")
@@ -45,10 +91,6 @@
             .attr("width", length)
             .attr("height", length)
             .attr("class", "bubble");
-
-        // Nodes (of a storage tree) store array of entire priority_1
-        var nodes = d3.hierarchy(priority_1)
-            .sum(function(d) { return d.Count; });
 
         // Defining each individual node/circle
         var node = svg.selectAll(".node")
@@ -107,6 +149,9 @@
 
         d3.select(self.frameElement)
             .style("height", length + "px");
+    }
+
+        oReq.send();
 
 	</script>
 </body>
