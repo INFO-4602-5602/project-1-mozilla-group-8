@@ -39,9 +39,13 @@ Names: Joshua Barker, Angus MacDonald, Malik Tefridj, Keaton Whitehead
 The quantitative analysis uses a map to compare the average number of internet-connected devices people own by country. We used Python to process the data so that it was narrowed down to the average number of devices that people owned. We then grouped the averages by country and saved it as its own CSV file. Next, we used Tableau to map the data out. The average devices owned affects the color of the country, which can be seen on the legend. You can hover over individual countries to see the exact averages, as well as the total number of people that responded to the Mozilla survey from said country. Using Tableau Public we were able to directly embed the interactive visualization in a basic HTML file.
 
 
-Design Process: ...
+<h2>Design Process:</h2
+<h3>Categorical</h3>
 
 
+<h3>Quantitative</h3>
+[Malik - python process here]
 
+We wanted there to be a distinct difference between countries above and below the average for the visualization. However, a few very small countries that only had a couple responses raised the maximum average so much that a lot of countries were indistinguishable. To remedy this, we lowered the maximum of the color scale, and set the center of the color scale to the overall average number of devices owned. Since Mozilla's landmark software is Firefox, we made the color scale similar to the main colors of the Firefox logo (orange and blue). Countries below the average are gradually tinted bluer, while countries above the average are tinted orange. 
 
 
