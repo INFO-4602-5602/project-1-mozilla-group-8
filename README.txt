@@ -47,8 +47,7 @@ The quantitative analysis uses a map to compare the average number of internet-c
 
 
 <h3>Quantitative</h3>
-[Malik - python process here]
-
+In order to make the data easier to aggregate and visualize, we decided to use python pandas library in order to get true counts. Loading in the csv, we were able to use the 'groupby' function on the country column as long with the 'aggregate' count function. With this organization, we were able to get a country breakdown of device usage.
 We wanted there to be a distinct difference between countries above and below the average for the visualization. However, a few very small countries that only had a couple responses raised the maximum average so much that a lot of countries were indistinguishable. To remedy this, we lowered the maximum of the color scale, and set the center of the color scale to the overall average number of devices owned. Since Mozilla's landmark software is Firefox, we made the color scale similar to the main colors of the Firefox logo (orange and blue). Countries below the average are gradually tinted bluer, while countries above the average are tinted orange. 
 
 
