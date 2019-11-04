@@ -29,7 +29,11 @@ Names: Joshua Barker, Angus MacDonald, Malik Tefridj, Keaton Whitehead
 
 
 <h2>Visualization Information:</h2>
+<h3>Categorical</h3>
 
+
+<h3>Quantitative</h3>
+The quantitative analysis uses a map to compare the average number of internet-connected devices people own by country. The average affects the color of the country, which can be seen on the legend. You can hover over individual countries to see the exact averages, as well as the total number of people that responded to the Mozilla survey from said country. 
 
 
 Design Process: ...
