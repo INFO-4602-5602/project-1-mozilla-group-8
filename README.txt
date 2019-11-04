@@ -1,17 +1,20 @@
 Team 8 Categorical Visualization (Bubble Chart)
 Names: Joshua Barker, Angus MacDonald, Malik Tefridj, Keaton Whitehead
 
+
 <h2>Team Roles per Individual:</h2>
 	Josh Baker: Mapped quantitative data 
 	Angus MacDonald: Set up categorical bubble chart....
 	Malik Tefridj: Set up quantitative data for visualization in Python
 	Keaton Whitehead: Set up categorical data html/CSS overall layout ....
 
+
 <h2>Sources:</h2> 
 	1.) Bubble Chart Template/Format: https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168
 	2.) Tooltip: https://www.d3-graph-gallery.com/graph/bubble_tooltip.html
 	3.) Loading Data from Excel sheet to JSON/Javascript: https://github.com/SheetJS/sheetjs
 	4.) ....??? any others....
+
 
 <h2>Instructions for Project Execution:</h2>
 <h3>Categorical</h3>
@@ -33,7 +36,7 @@ Names: Joshua Barker, Angus MacDonald, Malik Tefridj, Keaton Whitehead
 
 
 <h3>Quantitative</h3>
-The quantitative analysis uses a map to compare the average number of internet-connected devices people own by country. The average affects the color of the country, which can be seen on the legend. You can hover over individual countries to see the exact averages, as well as the total number of people that responded to the Mozilla survey from said country. 
+The quantitative analysis uses a map to compare the average number of internet-connected devices people own by country. We used Python to process the data so that it was narrowed down to the average number of devices that people owned. We then grouped the averages by country and saved it as its own CSV file. Next, we used Tableau to map the data out. The average devices owned affects the color of the country, which can be seen on the legend. You can hover over individual countries to see the exact averages, as well as the total number of people that responded to the Mozilla survey from said country. Using Tableau Public we were able to directly embed the interactive visualization in a basic HTML file.
 
 
 Design Process: ...
