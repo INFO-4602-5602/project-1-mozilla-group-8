@@ -29,7 +29,7 @@ Names: Joshua Barker, Angus MacDonald, Malik Tefridj, Keaton Whitehead
 
 <h3>Quantitative</h3>
 <ol>
-	<li>Open "devicesbycountry.html" 
+	<li>Open "devicesbycountry.html" in the browser - no need to start a server.
 	<li>To interact, hover mouse over any country to see the average number of devices owned.
 </ol>
 
