@@ -18,17 +18,20 @@ Names: Joshua Barker, Angus MacDonald, Malik Tefridj, Keaton Whitehead
 
 <h2>Instructions for Project Execution:</h2>
 <h3>Categorical</h3>
-	1.) Download project files onto localhost machine and insert the files into a single directory.
-	2.) In a terminal/command prompt window, navigate to the project directory (cd ...).
-	3.) Once inside the project directory, host python server for the webpage to run on (example: "python -m http.server")
-	4.) In web browser, go to localhost (127.0.0.1), specifying whichever port is used (example: "127.0.0.1:8000" for port 8000)
-	5.) Open "categorical.html" and allow to load (time delay due to data loading and processing)
-	6.) To interact, hover mouse over any bubble to get a summary of information contained within that bubble about the dataset.
+<ol>
+	<li>Download project files onto localhost machine and insert the files into a single directory.
+	<li>In a terminal/command prompt window, navigate to the project directory (cd ...).
+	<li>Once inside the project directory, host python server for the webpage to run on (example: "python -m http.server")
+	<li>In web browser, go to localhost (127.0.0.1), specifying whichever port is used (example: "127.0.0.1:8000" for port 8000)
+	<li>Open "categorical.html" and allow to load (time delay due to data loading and processing)
+	<li>To interact, hover mouse over any bubble to get a summary of information contained within that bubble about the dataset.
+</ol>
 
 <h3>Quantitative</h3>
-	7.) Open "devicesbycountry.html" 
-
-	8.) To interact, hover mouse over any country to see the average number of devices owned.
+<ol>
+	<li>Open "devicesbycountry.html" 
+	<li>To interact, hover mouse over any country to see the average number of devices owned.
+</ol>
 
 
 <h2>Visualization Information:</h2>
