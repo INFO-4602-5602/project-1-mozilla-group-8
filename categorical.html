@@ -3,277 +3,1257 @@
 
 <head>
 	<meta charset="utf-8">
-		<title>Project 1: Team 8 Categorical Data</title>
-		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="xlsx.full.min.js"></script>
+	<title>Project 1: Team 8 Categorical Data</title>
+	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="xlsx.full.min.js"></script>
 
-		<style type="text/css">
-			.tooltip {
-                position: absolute;
-                font-size: 12px;
-                width: auto;
-                height: auto;
-                pointer-events: none;
-                background-color: lightblue;
-            }
-		  .grid-container {
-			  display: grid;
-			  grid-gap: 10px;
-			  grid-template-columns: auto auto;
-			  background-color: black;
-			  padding: 20px;
-			  border: 5px solid #008EB3;
-			  box-shadow: -10px 10px 10px black;
+	<style type="text/css">
+	.tooltip {
+		position: absolute;
+		font-size: 12px;
+		width: auto;
+		height: auto;
+		pointer-events: none;
+		background-color: lightblue;
+	}
+	.grid-container {
+		display: grid;
+		grid-gap: 10px;
+		grid-template-columns: auto auto;
+		background-color: black;
+		padding: 20px;
+		border: 5px solid #008EB3;
+		box-shadow: -10px 10px 10px black;
 
-		  }
-		  .grid-item {
-			  background-color: gray;
-			  border: 5px solid black;
-			  border-radius: 25%;
-			  padding: 20px;
-			  font-size: 30px;
-			  text-align: center;
-			  height: 500px;
-			  box-shadow: -10px 10px 10px #008EB3;
-		  }
-		  .svg_card{
-			  background-color:white;
-			  height:100px;
-			  margin: auto;
-			  width: 90%;
-			  height: 90%;
-			  border-radius: 25%;
-		  }
-		</style>
+	}
+	.grid-item {
+		background-color: gray;
+		border: 5px solid black;
+		border-radius: 25%;
+		padding: 20px;
+		font-size: 30px;
+		text-align: center;
+		height: 500px;
+		box-shadow: -10px 10px 10px #008EB3;
+	}
+	.svg_card{
+		background-color:white;
+		height:100px;
+		margin: auto;
+		width: 90%;
+		height: 90%;
+		border-radius: 25%;
+	}
+	</style>
 </head>
 
 <body>
 	<div class="grid-container">
 		<div class="grid-item">
-			Price
-			<div class ="svg_card" id ="1"></div>
+			Ranked #1
+			<div class ="svg_card-1 svg_card" id ="div1"></div>
 		</div>
 		<div class="grid-item">
-			Features
-			<div class ="svg_card" id ="2"></div>
+			Ranked #2
+			<div class ="svg_card-2 svg_card" id ="div2"></div>
 		</div>
 		<div class="grid-item">
-			Safety
-			<div class ="svg_card" id ="3"></div>
+			Ranked #3
+			<div class ="svg_card-3 svg_card" id ="div3"></div>
 		</div>
 		<div class="grid-item">
-			Security
-			<div class ="svg_card" id ="4"></div>
+			Ranked #4
+			<div class ="svg_card-4 svg_card" id ="div4"></div>
 		</div>
 		<div class="grid-item">
-			Privacy
-			<div class ="svg_card" id ="5"></div>
+			Ranked #5
+			<div class ="svg_card-5 svg_card" id ="div5"></div>
 		</div>
 		<div class="grid-item">
-			Reliablity
-			<div class ="svg_card" id ="6"></div>
+			Ranked #6
+			<div class ="svg_card-6 svg_card" id ="div6"></div>
 		</div>
 		<div class="grid-item">
-			User Reviews
-			<div class ="svg_card" id ="7"></div>
+			Ranked #7
+			<div class ="svg_card-7 svg_card" id ="div7"></div>
 		</div>
 		<div class="grid-item">
-			Expert Recommendation
-			<div class ="svg_card" id ="8"></div>
+			Ranked #8
+			<div class ="svg_card-8 svg_card" id ="div8"></div>
 		</div>
 		<div class="grid-item">
-			Friend or Family Recomendation
-			<div class ="svg_card" id ="9"></div>
+			Ranked #9
+			<div class ="svg_card-9 svg_card" id ="div9"></div>
 		</div>
 		<div class="grid-item">
-			Convenience
-			<div class ="svg_card" id ="10"></div>
+			Ranked #10
+			<div class ="svg_card-10 svg_card" id ="div10"></div>
 		</div>
 	</div>
 	<script type="text/javascript">
 
-/////////////////////////////////// DATA LOADING ///////////////////////////////////////////////////////
-///////////////////////////// Src: https://github.com/SheetJS/sheetjs //////////////////////////////////
+	/////////////////////////////////// DATA LOADING ///////////////////////////////////////////////////////
+	///////////////////////////// Src: https://github.com/SheetJS/sheetjs //////////////////////////////////
 
-    // Set to Excel data file (which automatically updates itself if new data is put in)
-    var url = "SurveyExport_Categorical_Data.xlsx";
-    var oReq = new XMLHttpRequest();
-    oReq.open("GET", url, true);
-    oReq.responseType = "arraybuffer";
+	// Set to Excel data file (which automatically updates itself if new data is put in)
+	var url = "SurveyExport_Categorical_Data.xlsx";
+	var oReq = new XMLHttpRequest();
+	oReq.open("GET", url, true);
+	oReq.responseType = "arraybuffer";
 
-    oReq.onload = function(e) {
-    var arraybuffer = oReq.response;
+	oReq.onload = function(e) {
+		var arraybuffer = oReq.response;
 
-    /* Convert data to binary string */
-    var data = new Uint8Array(arraybuffer);
-    var arr = new Array();
-    for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-    var bstr = arr.join("");
+		/* Convert data to binary string */
+		var data = new Uint8Array(arraybuffer);
+		var arr = new Array();
+		for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+		var bstr = arr.join("");
 
-    /* Call XLSX */
-    var workbook = XLSX.read(bstr, {type:"binary"});
+		/* Call XLSX */
+		var workbook = XLSX.read(bstr, {type:"binary"});
 
-    var first_sheet_name = workbook.SheetNames[1];
-    /* Get the (2nd) Excel worksheet */
-    var worksheet = workbook.Sheets[first_sheet_name];
-    var json_vers = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+		var first_sheet_name = workbook.SheetNames[1];
+		/* Get the (2nd) Excel worksheet */
+		var worksheet = workbook.Sheets[first_sheet_name];
+		var json_vers = XLSX.utils.sheet_to_json(worksheet,{raw:true});
 
-    // Create array of 10 objects to store information (collected dynamically from excel worksheet)
-    var n = 10;
-    var infos = new Array();
-    for (var i = 0; i < n; i++)
-        infos.push(new Object());
+		// Create array of 10 objects to store information (collected dynamically from excel worksheet)
+		var n = 10;
+		var infos = new Array();
+		for (var i = 0; i < n; i++)
+		infos.push(new Object());
 
-    // Populate each object with information, where each object represents one bubble data set (one total rating)
-    for (var j = 0; j < n; j++){
-        infos[j] = {
-            "children": [{"Name":"Price","Count":json_vers[j].Price,"Priority":j+1},
-                {"Name":"Features","Count":json_vers[j].Features,"Priority":j+1},
-                {"Name":"Safety","Count":json_vers[j].Safety,"Priority":j+1},
-                {"Name":"Security","Count":json_vers[j].Security,"Priority":j+1},
-                {"Name":"Privacy","Count":json_vers[j].Privacy,"Priority":j+1},
-                {"Name":"Reliability","Count":json_vers[j].Reliability,"Priority":j+1},
-                {"Name":"User Reviews","Count":json_vers[j]["User Reviews"],"Priority":j+1},
-                {"Name":"Expert Rec.","Count":json_vers[j]["Expert Rec."],"Priority":j+1},
-                {"Name":"Friend/Fam. Rec.","Count":json_vers[j]["Friend/Fam. Rec."],"Priority":j+1},
-                {"Name":"Convenience","Count":json_vers[j].Convenience,"Priority":j+1}]
-        };
-    }
+		// Populate each object with information, where each object represents one bubble data set (one total rating)
+		for (var j = 0; j < n; j++){
+			infos[j] = {
+				"children": [{"Name":"Price","Count":json_vers[j].Price,"Priority":j+1},
+				{"Name":"Features","Count":json_vers[j].Features,"Priority":j+1},
+				{"Name":"Safety","Count":json_vers[j].Safety,"Priority":j+1},
+				{"Name":"Security","Count":json_vers[j].Security,"Priority":j+1},
+				{"Name":"Privacy","Count":json_vers[j].Privacy,"Priority":j+1},
+				{"Name":"Reliability","Count":json_vers[j].Reliability,"Priority":j+1},
+				{"Name":"User Reviews","Count":json_vers[j]["User Reviews"],"Priority":j+1},
+				{"Name":"Expert Rec.","Count":json_vers[j]["Expert Rec."],"Priority":j+1},
+				{"Name":"Friend/Fam. Rec.","Count":json_vers[j]["Friend/Fam. Rec."],"Priority":j+1},
+				{"Name":"Convenience","Count":json_vers[j].Convenience,"Priority":j+1}]
+			};
+		}
 
-  console.log(infos); // Put entire array of objects onto screen for verification
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+		console.log(infos); // Put entire array of objects onto screen for verification
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// Total image size = (length x length) pixels
-		var length = 300;
+		var length = 450;
 
 		// Map color by integers using schemeCategory10 (10 circles)
 		var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // Create set of bubbles using data; padding puts distance between each bubble
-        var bubble = d3.pack(infos[0])
-            .size([length, length])
-            .padding(2.0);
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[0])
+		.size([length, length])
+		.padding(2.0);
 
-        // Nodes (of a storage tree) store array of entire infos[0]
-        var nodes = d3.hierarchy(infos[0])
-            .sum(function(d) { return d.Count; });
+		// Nodes (of a storage tree) store array of entire infos[0]
+		var nodes0 = d3.hierarchy(infos[0])
+		.sum(function(d) { return d.Count; });
 
-        // SVG graphic variable holding desired attributes
-        var svg = d3.select(".svg_card")
-            .append("svg")
-            .attr("width", length)
-            .attr("height", length)
-            .attr("class", "bubble");
+		// SVG graphic variable holding desired attributes
+		var svg1 = d3.select("#div1")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
 
-        // Initialize tooltip variable for user interactivity
-        var tooltip = d3.select("body")
-            .append("div")
-                .style("opacity", 0)
-                .attr("class", "tooltip")
-                .style("background-color", "lightblue")
-                .style("border-radius", "5px")
-                .style("padding", "10px")
-                .style("color", "black")
+		// Initialize tooltip variable for user interactivity
+		var tooltip = d3.select("body")
+		.append("div")
+		.style("opacity", 0)
+		.attr("class", "tooltip")
+		.style("background-color", "lightblue")
+		.style("border-radius", "5px")
+		.style("padding", "10px")
+		.style("color", "black")
 
-        // Output tooltip /w relevant information when user first hovers over any new bubble
-        var showTooltip = function(d) {
-            var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
-            outputText += " as priority #: " + d.data.Priority + "<br>";
-            tooltip
-                .transition()
-                .duration(200)
-            tooltip
-                .style("opacity", 1)
-                .html(outputText)
-                .style("left", (d3.event.pageX + 15) + "px")
-                .style("top", (d3.event.pageY - 28) + "px")
-        }
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
 
-        // Update location of tooltip box whenever user moves the mouse over the same bubble
-        var moveTooltip = function(d) {
-            tooltip
-                .style("left", (d3.event.pageX + 15) + "px")
-                .style("top", (d3.event.pageY - 28) + "px")
-        }
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
 
-        // Hide tooltip (opacity=0) when mouse goes off the currrent bubble
-        var hideTooltip = function(d) {
-            tooltip
-                .transition()
-                .duration(200)
-                .style("opacity", 0)
-        }
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
 
-        // Defining each individual node/circle
-        var node = svg.selectAll(".node")
-            .data(bubble(nodes).descendants())
-            .enter()
-            .filter(function(d){
-                return  !d.children
-            })
-            .append("g")
-            .attr("class", "node")
-            .on("mouseover", showTooltip)
-            .on("mousemove", moveTooltip)
-            .on("mouseleave", hideTooltip)
-            .attr("transform", function(d) {
-                return "translate(" + d.x + "," + d.y + ")";
-            });
+		// Defining each individual node/circle
+		var node0 = svg1.selectAll(".nodes0")
+		.data(bubble(nodes0).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "nodes0")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
 
-        // Titles each node/bubble for in-script information
-        node.append("title")
-            .text(function(d) {
-                return d.Name + ": " + d.Count;
-           });
+		// Titles each node/bubble for in-script information
+		node0.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
 
-        // Function that returns radius of each bubble for output onto screen
-        node.append("circle")
-            .attr("r", function(d) {
-                return d.r;
-            })
-        // Function that returns color for each bubble for output onto screen
-            .style("fill", function(d,i) {
-                return color(i);
-            });
+		// Function that returns radius of each bubble for output onto screen
+		node0.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
 
-        // Label each individual bubble /w Name and format it to fit the bubble
-        node.append("text")
-            .attr("dy", ".2em")  // Vertical distance between "name" and "count"
-            .style("text-anchor", "middle") // Center text on bubble
-            .text(function(d) {
-                return d.data.Name.substring(0, d.r / 3);
-            })
-            .attr("font-family", "sans-serif")
-            .attr("font-size", function(d){  // Font size in terms of bubble radius
-                return d.r/4.5;
-            })
-            .attr("fill", "black"); // Color of text
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node0.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
 
-        // Add on count (which we pre-calculated) to each individual bubble with good looking format
-        node.append("text")
-            .attr("dy", "1.3em") // Vertical distance between "name" and "count"
-            .style("text-anchor", "middle")  // Center text on bubble
-            .text(function(d) {
-                return d.data.Count;
-            })
-            .attr("font-family",  "Gill Sans", "Gill Sans MT")
-            .attr("font-size", function(d){  // Font size in terms of bubble radius
-                return d.r/6;
-            })
-            .attr("fill", "black");  // Color of text
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node0.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
 
-        d3.select(self.frameElement)
-            .style("height", length + "px");
 
-    } // End of Excel sheet read-in
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        oReq.send(); // End of Excel Sheet read-in (from source)
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[1])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[1]
+		var nodes1 = d3.hierarchy(infos[1])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg2 = d3.select("#div2")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node1 = svg2.selectAll(".node1")
+		.data(bubble(nodes1).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node1")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node1.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node1.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node1.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node1.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[2])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[2]
+		var nodes2 = d3.hierarchy(infos[2])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg3 = d3.select("#div3")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node2 = svg3.selectAll(".node2")
+		.data(bubble(nodes2).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node2")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node2.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node2.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node2.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node2.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[3])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[3]
+		var nodes3 = d3.hierarchy(infos[3])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg4 = d3.select("#div4")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node3 = svg4.selectAll(".node3")
+		.data(bubble(nodes3).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node3.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node3.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node3.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node3.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[4])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[4]
+		var nodes4 = d3.hierarchy(infos[4])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg5 = d3.select("#div5")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node4 = svg5.selectAll(".node4")
+		.data(bubble(nodes4).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node4")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node4.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node4.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node4.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node4.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[5])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[5]
+		var nodes5= d3.hierarchy(infos[5])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg6 = d3.select("#div6")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node5 = svg6.selectAll(".node5")
+		.data(bubble(nodes5).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node5")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node5.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node5.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node5.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node5.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[6])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[6]
+		var nodes6 = d3.hierarchy(infos[6])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg7 = d3.select("#div7")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node6 = svg7.selectAll(".node6")
+		.data(bubble(nodes6).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node6")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node6.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node6.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node6.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node6.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[7])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[7]
+		var nodes7 = d3.hierarchy(infos[7])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg8 = d3.select("#div8")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node7 = svg8.selectAll(".node7")
+		.data(bubble(nodes7).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node7")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node7.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node7.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node7.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node7.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[8])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[8]
+		var nodes8 = d3.hierarchy(infos[8])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg9 = d3.select("#div9")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node8 = svg9.selectAll(".node8")
+		.data(bubble(nodes8).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node8")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node8.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node8.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node8.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node8.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Create set of bubbles using data; padding puts distance between each bubble
+		var bubble = d3.pack(infos[9])
+		.size([length, length])
+		.padding(2.0);
+
+		// Nodes (of a storage tree) store array of entire infos[9]
+		var nodes9 = d3.hierarchy(infos[9])
+		.sum(function(d) { return d.Count; });
+
+		// SVG graphic variable holding desired attributes
+		var svg10 = d3.select("#div10")
+		.append("svg")
+		.attr("width", length)
+		.attr("height", length)
+		.attr("class", "bubble");
+
+		// Output tooltip /w relevant information when user first hovers over any new bubble
+		var showTooltip = function(d) {
+			var outputText = d.data.Count + " people rated " + d.data.Name + "<br>";
+			outputText += " as priority #: " + d.data.Priority + "<br>";
+			tooltip
+			.transition()
+			.duration(200)
+			tooltip
+			.style("opacity", 1)
+			.html(outputText)
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Update location of tooltip box whenever user moves the mouse over the same bubble
+		var moveTooltip = function(d) {
+			tooltip
+			.style("left", (d3.event.pageX + 15) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+		}
+
+		// Hide tooltip (opacity=0) when mouse goes off the currrent bubble
+		var hideTooltip = function(d) {
+			tooltip
+			.transition()
+			.duration(200)
+			.style("opacity", 0)
+		}
+
+		// Defining each individual node/circle
+		var node9 = svg10.selectAll(".node9")
+		.data(bubble(nodes9).descendants())
+		.enter()
+		.filter(function(d){
+			return  !d.children
+		})
+		.append("g")
+		.attr("class", "node")
+		.on("mouseover", showTooltip)
+		.on("mousemove", moveTooltip)
+		.on("mouseleave", hideTooltip)
+		.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+		// Titles each node/bubble for in-script information
+		node9.append("title")
+		.text(function(d) {
+			return d.Name + ": " + d.Count;
+		});
+
+		// Function that returns radius of each bubble for output onto screen
+		node9.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		// Function that returns color for each bubble for output onto screen
+		.style("fill", function(d,i) {
+			return color(i);
+		});
+
+		// Label each individual bubble /w Name and format it to fit the bubble
+		node9.append("text")
+		.attr("dy", ".2em")  // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle") // Center text on bubble
+		.text(function(d) {
+			return d.data.Name.substring(0, d.r / 3);
+		})
+		.attr("font-family", "sans-serif")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/4.5;
+		})
+		.attr("fill", "black"); // Color of text
+
+		// Add on count (which we pre-calculated) to each individual bubble with good looking format
+		node9.append("text")
+		.attr("dy", "1.3em") // Vertical distance between "name" and "count"
+		.style("text-anchor", "middle")  // Center text on bubble
+		.text(function(d) {
+			return d.data.Count;
+		})
+		.attr("font-family",  "Gill Sans", "Gill Sans MT")
+		.attr("font-size", function(d){  // Font size in terms of bubble radius
+			return d.r/6;
+		})
+		.attr("fill", "black");  // Color of text
+
+
+		d3.select(self.frameElement)
+		.style("height", length + "px");
+
+	} // End of Excel sheet read-in
+
+	oReq.send(); // End of Excel Sheet read-in (from source)
 
 	</script>
 
