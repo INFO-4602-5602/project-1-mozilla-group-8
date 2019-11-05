@@ -15,11 +15,81 @@
                 height: auto;
                 pointer-events: none;
                 background-color: lightblue;
-            }		
+            }
+		  .grid-container {
+			  display: grid;
+			  grid-gap: 10px;
+			  grid-template-columns: auto auto;
+			  background-color: black;
+			  padding: 20px;
+			  border: 5px solid #008EB3;
+			  box-shadow: -10px 10px 10px black;
+
+		  }
+		  .grid-item {
+			  background-color: gray;
+			  border: 5px solid black;
+			  border-radius: 25%;
+			  padding: 20px;
+			  font-size: 30px;
+			  text-align: center;
+			  height: 500px;
+			  box-shadow: -10px 10px 10px #008EB3;
+		  }
+		  .svg_card{
+			  background-color:white;
+			  height:100px;
+			  margin: auto;
+			  width: 90%;
+			  height: 90%;
+			  border-radius: 25%;
+		  }
 		</style>
 </head>
 
 <body>
+	<div class="grid-container">
+		<div class="grid-item">
+			Price
+			<div class ="svg_card" id ="1"></div>
+		</div>
+		<div class="grid-item">
+			Features
+			<div class ="svg_card" id ="2"></div>
+		</div>
+		<div class="grid-item">
+			Safety
+			<div class ="svg_card" id ="3"></div>
+		</div>
+		<div class="grid-item">
+			Security
+			<div class ="svg_card" id ="4"></div>
+		</div>
+		<div class="grid-item">
+			Privacy
+			<div class ="svg_card" id ="5"></div>
+		</div>
+		<div class="grid-item">
+			Reliablity
+			<div class ="svg_card" id ="6"></div>
+		</div>
+		<div class="grid-item">
+			User Reviews
+			<div class ="svg_card" id ="7"></div>
+		</div>
+		<div class="grid-item">
+			Expert Recommendation
+			<div class ="svg_card" id ="8"></div>
+		</div>
+		<div class="grid-item">
+			Friend or Family Recomendation
+			<div class ="svg_card" id ="9"></div>
+		</div>
+		<div class="grid-item">
+			Convenience
+			<div class ="svg_card" id ="10"></div>
+		</div>
+	</div>
 	<script type="text/javascript">
 
 /////////////////////////////////// DATA LOADING ///////////////////////////////////////////////////////
@@ -75,22 +145,27 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// Total image size = (length x length) pixels
-		var length = 600;
+		var length = 300;
 
 		// Map color by integers using schemeCategory10 (10 circles)
 		var color = d3.scaleOrdinal(d3.schemeCategory10);
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         // Create set of bubbles using data; padding puts distance between each bubble
-        var bubble = d3.pack(infos[6])
+        var bubble = d3.pack(infos[0])
             .size([length, length])
             .padding(2.0);
 
         // Nodes (of a storage tree) store array of entire infos[0]
-        var nodes = d3.hierarchy(infos[6])
+        var nodes = d3.hierarchy(infos[0])
             .sum(function(d) { return d.Count; });
 
         // SVG graphic variable holding desired attributes
-        var svg = d3.select("body")
+        var svg = d3.select(".svg_card")
             .append("svg")
             .attr("width", length)
             .attr("height", length)
@@ -195,11 +270,12 @@
 
         d3.select(self.frameElement)
             .style("height", length + "px");
-            
+
     } // End of Excel sheet read-in
 
         oReq.send(); // End of Excel Sheet read-in (from source)
 
 	</script>
+
 </body>
 </html>
