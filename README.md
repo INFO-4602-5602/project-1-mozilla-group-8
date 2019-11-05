@@ -36,7 +36,7 @@ Names: Joshua Baker, Angus MacDonald, Malik Tefridj, Keaton Whitehead
 
 <h2>Visualization Information:</h2>
 <h3>Categorical</h3>
-The categorical analysis creates a bubble chart to compare the ratings that users provided to show what they prioritize the most in selecting a technological product such as privacy, price, features, user reviews, etc. The bubble chart has the ability to show what users rated in each priority. For example, viewers can see the breakdown for the most important priority (rated #1) by comparing the relative sizes of the bubbles to each other. Each bubble represents one aspect that the user rated on, and each bubble is labeled on the screen. Additionally, the viewer can hover over each bubble with their mouse to get a summary of the information portrayed by that bubble.
+The categorical analysis creates a bubble chart for each rank of importance to compare the ratings that users provided to show what they prioritize the most in selecting a technological product such as privacy, price, features, user reviews, etc. The bubble charts have the ability to show what users rated in each priority and which seemed to have equivalent priorities. For example, viewers can see the breakdown for the most important priority (rated #1) by comparing the relative sizes of the bubbles to each other. Each bubble represents one aspect that the user rated on, and each bubble is labeled on the screen. Additionally, the viewer can hover over each bubble with their mouse to get a summary of the information portrayed by that bubble. Each seperate box represents the different orders of priorities for each topic and the population of those rankings.
 
 
 <h3>Quantitative</h3>
